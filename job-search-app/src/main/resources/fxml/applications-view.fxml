@@ -1,0 +1,35 @@
+<!-- src/main/resources/fxml/applications-view.fxml -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.jobsearch.ui.ApplicationsController"
+      spacing="10" padding="15">
+    
+    <Label text="Job Applications" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    
+    <HBox spacing="10">
+        <Label text="Filter by status:"/>
+        <ComboBox fx:id="statusFilterCombo"/>
+    </HBox>
+    
+    <TableView fx:id="applicationsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="jobTitleColumn" text="Job Title"/>
+            <TableColumn fx:id="companyColumn" text="Company"/>
+            <TableColumn fx:id="applicationDateColumn" text="Date Applied"/>
+            <TableColumn fx:id="statusColumn" text="Status"/>
+            <TableColumn fx:id="notesColumn" text="Notes"/>
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10">
+        <Button fx:id="updateStatusButton" text="Update Status" onAction="#handleUpdateStatus"/>
+        <Button fx:id="updateNotesButton" text="Update Notes" onAction="#handleUpdateNotes"/>
+        <Button fx:id="removeApplicationButton" text="Remove" onAction="#handleRemoveApplication"/>
+        <Button fx:id="exportResumeButton" text="Export Resume" onAction="#handleExportResume"/>
+    </HBox>
+</VBox>

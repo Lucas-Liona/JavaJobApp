@@ -1,0 +1,59 @@
+<!-- src/main/resources/fxml/search-view.fxml -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.jobsearch.ui.SearchController"
+      spacing="10" padding="15">
+    
+    <Label text="Search Jobs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    
+    <GridPane hgap="10" vgap="10">
+        <padding><Insets top="10" bottom="10"/></padding>
+        
+        <Label text="Job Keywords:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="keywordsField" promptText="Enter job title or keywords" 
+                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        
+        <Label text="Location:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="locationField" promptText="City name or 'remote'" 
+                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        
+        <Label text="Job Type:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="jobTypeCombo" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        
+        <Label text="Experience Level:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="experienceLevelCombo" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        
+        <Label text="Minimum Salary:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="salaryFilterCombo" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        
+        <Label text="API Source:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="apiSourceCombo" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        
+        <Button fx:id="searchButton" text="Search Jobs" onAction="#handleSearch"
+                GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+    </GridPane>
+    
+    <Label text="Results:"/>
+    <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="titleColumn" text="Title"/>
+            <TableColumn fx:id="companyColumn" text="Company"/>
+            <TableColumn fx:id="locationColumn" text="Location"/>
+            <TableColumn fx:id="salaryColumn" text="Salary"/>
+            <TableColumn fx:id="dateColumn" text="Date Posted"/>
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10">
+        <Button fx:id="addToFavoritesButton" text="Add to Favorites" onAction="#handleAddToFavorites"/>
+        <Button fx:id="recordApplicationButton" text="Record Application" onAction="#handleRecordApplication"/>
+        <Button fx:id="viewDetailsButton" text="View Details" onAction="#handleViewDetails"/>
+        <Button fx:id="saveResultsButton" text="Save Results to CSV" onAction="#handleSaveResults"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,28 @@
+<!-- src/main/resources/fxml/favorites-view.fxml -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.jobsearch.ui.FavoritesController"
+      spacing="10" padding="15">
+    
+    <Label text="Favorite Jobs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    
+    <TableView fx:id="favoritesTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="titleColumn" text="Title"/>
+            <TableColumn fx:id="companyColumn" text="Company"/>
+            <TableColumn fx:id="locationColumn" text="Location"/>
+            <TableColumn fx:id="salaryColumn" text="Salary"/>
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10">
+        <Button fx:id="removeFavoriteButton" text="Remove" onAction="#handleRemoveFavorite"/>
+        <Button fx:id="viewDetailsButton" text="View Details" onAction="#handleViewDetails"/>
+        <Button fx:id="recordApplicationButton" text="Record Application" onAction="#handleRecordApplication"/>
+    </HBox>
+</VBox>

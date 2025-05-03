@@ -1,0 +1,25 @@
+<!-- src/main/resources/fxml/main-view.fxml -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.jobsearch.ui.MainController"
+          prefHeight="700.0" prefWidth="900.0">
+    
+    <top>
+        <VBox spacing="10">
+            <Label text="Job Search Application" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Search Jobs" fx:id="searchTab"/>
+                <Tab text="Favorites" fx:id="favoritesTab"/>
+                <Tab text="Applications" fx:id="applicationsTab"/>
+            </TabPane>
+        </VBox>
+    </top>
+    
+    <!-- The tab content will be loaded dynamically -->
+    
+</BorderPane>
