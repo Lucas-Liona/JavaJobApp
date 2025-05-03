@@ -1,4 +1,3 @@
-<!-- src/main/resources/fxml/search-view.fxml -->
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
@@ -8,12 +7,18 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.jobsearch.ui.SearchController"
-      spacing="10" padding="15">
+      spacing="10">
+    
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15" />
+    </padding>
     
     <Label text="Search Jobs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     
     <GridPane hgap="10" vgap="10">
-        <padding><Insets top="10" bottom="10"/></padding>
+        <padding>
+            <Insets top="10" bottom="10"/>
+        </padding>
         
         <Label text="Job Keywords:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
         <TextField fx:id="keywordsField" promptText="Enter job title or keywords" 

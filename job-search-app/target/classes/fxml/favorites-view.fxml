@@ -1,13 +1,17 @@
-<!-- src/main/resources/fxml/favorites-view.fxml -->
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.jobsearch.ui.FavoritesController"
-      spacing="10" padding="15">
+      spacing="10">
+      
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15" />
+    </padding>
     
     <Label text="Favorite Jobs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
     

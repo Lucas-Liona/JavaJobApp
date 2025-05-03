@@ -1,8 +1,14 @@
+com\example\jobsearch\ui\JavaFXApplication.class
 com\example\jobsearch\service\AdzunaJobService.class
 com\example\jobsearch\service\JobApplicationService.class
 com\example\jobsearch\JobSearchApplication.class
+com\example\jobsearch\service\GoogleJobService.class
+com\example\jobsearch\ui\SearchController.class
 com\example\jobsearch\model\Job.class
 com\example\jobsearch\util\ApiUtils.class
+com\example\jobsearch\ui\FavoritesController.class
+com\example\jobsearch\ui\ApplicationsController.class
 com\example\jobsearch\ui\MainController.class
 com\example\jobsearch\config\AppConfig.class
+com\example\jobsearch\service\FavoriteService.class
 com\example\jobsearch\model\JobApplication.class

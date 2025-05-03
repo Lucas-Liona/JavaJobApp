@@ -19,7 +19,7 @@ public class JobApplication {
     // Getters
     public Job getJob() { return job; }
     public LocalDate getApplicationDate() { return applicationDate; }
-    public String getStatus() { return status; } // Added this missing getter
+    public String getStatus() { return status; }
     public String getNotes() { return notes; }
     
     // Setters

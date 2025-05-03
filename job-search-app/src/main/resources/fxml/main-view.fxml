@@ -1,8 +1,8 @@
-<!-- src/main/resources/fxml/main-view.fxml -->
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
@@ -11,6 +11,9 @@
     
     <top>
         <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
             <Label text="Job Search Application" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
             <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Search Jobs" fx:id="searchTab"/>
