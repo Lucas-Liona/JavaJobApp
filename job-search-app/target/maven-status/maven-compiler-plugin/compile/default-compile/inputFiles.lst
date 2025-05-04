@@ -1,3 +1,4 @@
+C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\service\SpellCheckService.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\model\JobApplication.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\ui\MainController.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\config\AppConfig.java
@@ -10,5 +11,6 @@ C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearc
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\ui\FavoritesController.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\service\AdzunaJobService.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\service\FavoriteService.java
+C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\service\LuceneSpellCheckService.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\ui\JavaFXApplication.java
 C:\Users\lucas\Code\JavaJobApp\job-search-app\src\main\java\com\example\jobsearch\model\Job.java

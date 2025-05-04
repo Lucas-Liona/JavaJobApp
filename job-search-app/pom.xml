@@ -102,7 +102,7 @@
         <!-- Apache Lucene Analyzers -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-common</artifactId>
+            <artifactId>lucene-analysis-common</artifactId>
             <version>9.7.0</version>
         </dependency>
 

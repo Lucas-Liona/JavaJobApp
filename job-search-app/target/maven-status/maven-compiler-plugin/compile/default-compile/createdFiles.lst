@@ -11,4 +11,6 @@ com\example\jobsearch\ui\ApplicationsController.class
 com\example\jobsearch\ui\MainController.class
 com\example\jobsearch\config\AppConfig.class
 com\example\jobsearch\service\FavoriteService.class
+com\example\jobsearch\service\impl\LuceneSpellCheckService.class
+com\example\jobsearch\service\SpellCheckService.class
 com\example\jobsearch\model\JobApplication.class

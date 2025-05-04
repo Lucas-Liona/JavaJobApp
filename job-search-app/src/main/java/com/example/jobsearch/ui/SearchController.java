@@ -64,7 +64,8 @@ public class SearchController implements Initializable {
     private SpellCheckService spellCheckService;
 
     @FXML
-    private Label didYouMeanLabel; // Add this to your FXML
+    private Label didYouMeanLabel;
+    
     private ObservableList<Job> jobResults = FXCollections.observableArrayList();
     
     public SearchController(
@@ -130,6 +131,11 @@ public class SearchController implements Initializable {
         // Clear previous results
         jobResults.clear();
         
+        // Clear any previous suggestion if the label exists
+        if (didYouMeanLabel != null) {
+            didYouMeanLabel.setVisible(false);
+        }
+        
         String keywords = keywordsField.getText();
         String location = locationField.getText();
         
@@ -170,7 +176,7 @@ public class SearchController implements Initializable {
                 jobResults.addAll(adzunaJobs);
             }
             
-            // Apply filters as before
+            // Apply filters
             applySalaryFilter();
             
             // Apply job type filter if selected
@@ -191,20 +197,90 @@ public class SearchController implements Initializable {
                 );
             }
             
-            // Check if results are limited and display "Did you mean" if needed
-            if (jobResults.size() < 5 && didYouMean != null && !didYouMean.equals(originalKeywords)) {
-                didYouMeanLabel.setText("Did you mean: " + didYouMean + "?");
-                didYouMeanLabel.setVisible(true);
+            // Check if search terms have been corrected
+            if (didYouMean != null && !didYouMean.equals(originalKeywords)) {
+                // Show explicit notification
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Search Term Corrected");
+                alert.setHeaderText(null);
+                alert.setContentText("Your search for \"" + originalKeywords + "\" was automatically corrected to \"" + didYouMean + "\"");
+                alert.show();
                 
-                // Make the label clickable to perform the suggested search
-                didYouMeanLabel.setOnMouseClicked(e -> {
-                    keywordsField.setText(didYouMean);
-                    handleSearch(new ActionEvent());
-                });
-                
-                // Style the label to look clickable
-                didYouMeanLabel.setStyle("-fx-text-fill: blue; -fx-underline: true; -fx-cursor: hand;");
-            } else {
+                // Update the label text and make it visible
+                if (didYouMeanLabel != null) {
+                    System.out.println("Setting didYouMeanLabel visible");
+                    didYouMeanLabel.setText("Did you mean: \"" + didYouMean + "\"? (click to use original search)");
+                    didYouMeanLabel.setVisible(true);
+                    
+                    // Make it clickable to use original terms
+                    didYouMeanLabel.setOnMouseClicked(e -> {
+                        keywordsField.setText(originalKeywords);
+                        // When using original terms, bypass spell checking
+                        handleOriginalSearch();
+                    });
+                } else {
+                    System.out.println("didYouMeanLabel is null");
+                }
+            }
+            
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Search Error", 
+                    "An error occurred while searching for jobs: " + e.getMessage());
+        } finally {
+            // Reset button state
+            searchButton.setDisable(false);
+            searchButton.setText("Search Jobs");
+        }
+    }
+    
+    private void handleOriginalSearch() {
+        // Similar to handleSearch but without spell checking
+        String keywords = keywordsField.getText();
+        String location = locationField.getText();
+        
+        // Start search
+        try {
+            // Show loading indicator
+            searchButton.setDisable(true);
+            searchButton.setText("Searching...");
+            
+            // Select API source and perform search with original terms
+            String apiSource = apiSourceCombo.getValue();
+            jobResults.clear();
+            
+            if ("Google Cloud Talent".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
+                List<Job> googleJobs = googleJobService.searchJobs(keywords, location);
+                jobResults.addAll(googleJobs);
+            }
+            
+            if ("Adzuna".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
+                List<Job> adzunaJobs = adzunaJobService.searchJobs(keywords, location);
+                jobResults.addAll(adzunaJobs);
+            }
+            
+            // Apply filters
+            applySalaryFilter();
+            
+            // Apply job type filter if selected
+            String jobType = jobTypeCombo.getValue();
+            if (!"All job types".equals(jobType)) {
+                jobResults.removeIf(job -> 
+                    !job.getTitle().toLowerCase().contains(jobType.toLowerCase()) &&
+                    !job.getDescription().toLowerCase().contains(jobType.toLowerCase())
+                );
+            }
+            
+            // Apply experience level filter if selected
+            String expLevel = experienceLevelCombo.getValue();
+            if (!"All experience levels".equals(expLevel)) {
+                jobResults.removeIf(job -> 
+                    !job.getTitle().toLowerCase().contains(expLevel.toLowerCase().replace(" level", "")) &&
+                    !job.getDescription().toLowerCase().contains(expLevel.toLowerCase().replace(" level", ""))
+                );
+            }
+            
+            // Hide the didYouMeanLabel
+            if (didYouMeanLabel != null) {
                 didYouMeanLabel.setVisible(false);
             }
             
@@ -256,7 +332,7 @@ public class SearchController implements Initializable {
                 try {
                     // Try to extract numbers from salary string
                     String numericPart = salary.replaceAll("[^0-9]", " ")
-                                              .trim().replaceAll("\\s+", " ");
+                                          .trim().replaceAll("\\s+", " ");
                     String[] numbers = numericPart.split(" ");
                     
                     // Use the first number found
@@ -344,72 +420,72 @@ public class SearchController implements Initializable {
     }
     
     @FXML
-private void handleViewDetails(ActionEvent event) {
-    Job selectedJob = resultsTable.getSelectionModel().getSelectedItem();
-    if (selectedJob != null) {
-        // Create a details dialog
-        Dialog<Void> dialog = new Dialog<>();
-        dialog.setTitle("Job Details");
-        dialog.setHeaderText(selectedJob.getTitle() + " at " + selectedJob.getCompany());
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        
-        // Format description as HTML for better readability
-        String htmlContent = String.format(
-            "<html><body style='font-family: Arial; margin: 10px;'>" +
-            "<h2>%s</h2>" +
-            "<h3>%s</h3>" +
-            "<p><strong>Location:</strong> %s</p>" +
-            "<p><strong>Salary:</strong> %s</p>" +
-            "<p><strong>Date Posted:</strong> %s</p>" +
-            "<p><strong>URL:</strong> <a href='%s'>%s</a></p>" +
-            "<hr><h3>Description:</h3>" +
-            "<div>%s</div>" +
-            "</body></html>",
-            selectedJob.getTitle(),
-            selectedJob.getCompany(),
-            selectedJob.getLocation(),
-            selectedJob.getSalary(),
-            selectedJob.getDatePostedFormatted(),
-            selectedJob.getUrl(),
-            "Apply Online",
-            selectedJob.getDescription().replace("\n", "<br>")
-        );
-        
-        // Create WebView to display HTML content
-        WebView webView = new WebView();
-        webView.getEngine().loadContent(htmlContent);
-        webView.setPrefSize(600, 400);
-        
-        // Create a button to open the URL in browser
-        Button openInBrowserButton = new Button("Open in Browser");
-        openInBrowserButton.setOnAction(e -> {
-            try {
-                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                    Desktop.getDesktop().browse(new URI(selectedJob.getUrl()));
-                } else {
-                    showAlert(Alert.AlertType.INFORMATION, "Browser Not Available",
-                        "Please copy this URL manually and open in your browser:\n" + selectedJob.getUrl());
+    private void handleViewDetails(ActionEvent event) {
+        Job selectedJob = resultsTable.getSelectionModel().getSelectedItem();
+        if (selectedJob != null) {
+            // Create a details dialog
+            Dialog<Void> dialog = new Dialog<>();
+            dialog.setTitle("Job Details");
+            dialog.setHeaderText(selectedJob.getTitle() + " at " + selectedJob.getCompany());
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+            
+            // Format description as HTML for better readability
+            String htmlContent = String.format(
+                "<html><body style='font-family: Arial; margin: 10px;'>" +
+                "<h2>%s</h2>" +
+                "<h3>%s</h3>" +
+                "<p><strong>Location:</strong> %s</p>" +
+                "<p><strong>Salary:</strong> %s</p>" +
+                "<p><strong>Date Posted:</strong> %s</p>" +
+                "<p><strong>URL:</strong> <a href='%s'>%s</a></p>" +
+                "<hr><h3>Description:</h3>" +
+                "<div>%s</div>" +
+                "</body></html>",
+                selectedJob.getTitle(),
+                selectedJob.getCompany(),
+                selectedJob.getLocation(),
+                selectedJob.getSalary(),
+                selectedJob.getDatePostedFormatted(),
+                selectedJob.getUrl(),
+                "Apply Online",
+                selectedJob.getDescription().replace("\n", "<br>")
+            );
+            
+            // Create WebView to display HTML content
+            WebView webView = new WebView();
+            webView.getEngine().loadContent(htmlContent);
+            webView.setPrefSize(600, 400);
+            
+            // Create a button to open the URL in browser
+            Button openInBrowserButton = new Button("Open in Browser");
+            openInBrowserButton.setOnAction(e -> {
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(selectedJob.getUrl()));
+                    } else {
+                        showAlert(Alert.AlertType.INFORMATION, "Browser Not Available",
+                            "Please copy this URL manually and open in your browser:\n" + selectedJob.getUrl());
+                    }
+                } catch (Exception ex) {
+                    showAlert(Alert.AlertType.ERROR, "Browser Error",
+                        "Couldn't open browser. Please copy this URL manually:\n" + selectedJob.getUrl());
                 }
-            } catch (Exception ex) {
-                showAlert(Alert.AlertType.ERROR, "Browser Error",
-                    "Couldn't open browser. Please copy this URL manually:\n" + selectedJob.getUrl());
-            }
-        });
+            });
 
-        // Create a VBox to hold the WebView and button
-        VBox content = new VBox(10, webView, openInBrowserButton);
-        content.setAlignment(Pos.CENTER);
-        
-        // Set the VBox as the dialog content - THIS IS THE FIX
-        dialog.getDialogPane().setContent(content);
-        dialog.getDialogPane().setPrefSize(650, 500);
-        
-        // Show the dialog
-        dialog.showAndWait();
-    } else {
-        showAlert(Alert.AlertType.WARNING, "Selection Required", "Please select a job first.");
+            // Create a VBox to hold the WebView and button
+            VBox content = new VBox(10, webView, openInBrowserButton);
+            content.setAlignment(Pos.CENTER);
+            
+            // Set the VBox as the dialog content
+            dialog.getDialogPane().setContent(content);
+            dialog.getDialogPane().setPrefSize(650, 500);
+            
+            // Show the dialog
+            dialog.showAndWait();
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Selection Required", "Please select a job first.");
+        }
     }
-}
     
     @FXML
     private void handleSaveResults(ActionEvent event) {
