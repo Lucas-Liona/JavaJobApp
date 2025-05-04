@@ -2,6 +2,7 @@
 package com.example.jobsearch.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class JobApplication {
     private Job job;
@@ -22,9 +23,27 @@ public class JobApplication {
     public String getStatus() { return status; }
     public String getNotes() { return notes; }
     
+    // Formatted date getter for TableView display
+    public String getApplicationDateFormatted() {
+        if (applicationDate == null) return "";
+        return applicationDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+    }
+    
+    // Getters for job properties (for TableView)
+    public String getJobTitle() { return job.getTitle(); }
+    public String getCompany() { return job.getCompany(); }
+    
     // Setters
     public void setStatus(String status) { this.status = status; }
     public void setNotes(String notes) { this.notes = notes; }
+    public void setApplicationDate(LocalDate applicationDate) { this.applicationDate = applicationDate; }
     
-    // Other methods...
+    @Override
+    public String toString() {
+        return "JobApplication{" +
+               "job=" + job.getTitle() + " at " + job.getCompany() +
+               ", applicationDate=" + applicationDate +
+               ", status='" + status + '\'' +
+               '}';
+    }
 }

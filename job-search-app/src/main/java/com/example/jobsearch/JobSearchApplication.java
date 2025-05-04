@@ -19,8 +19,8 @@ public class JobSearchApplication {
     public CommandLineRunner testApiConnections(GoogleJobService googleJobService) {
         return args -> {
             System.out.println("Testing Google Cloud Talent API connection...");
-            boolean googleApiWorking = googleJobService.testApiConnection();
-            System.out.println("Google API working: " + googleApiWorking);
+            //boolean googleApiWorking = googleJobService.testApiConnection();
+            //System.out.println("Google API working: " + googleApiWorking);
         };
     }
 

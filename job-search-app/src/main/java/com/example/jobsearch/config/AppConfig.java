@@ -9,11 +9,13 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class AppConfig {
 
+    /** 
     @Value("${google.api.key}")
     private String googleApiKey;
     
     @Value("${google.project.id}")
     private String googleProjectId;
+    */
     
     @Value("${adzuna.api.key}")
     private String adzunaApiKey;
@@ -26,7 +28,7 @@ public class AppConfig {
         return new RestTemplate();
     }
     
-    // Getters for API credentials
+    /**  Getters for API credentials
     public String getGoogleApiKey() {
         return googleApiKey;
     }
@@ -34,7 +36,7 @@ public class AppConfig {
     public String getGoogleProjectId() {
         return googleProjectId;
     }
-    
+    */
     public String getAdzunaApiKey() {
         return adzunaApiKey;
     }
