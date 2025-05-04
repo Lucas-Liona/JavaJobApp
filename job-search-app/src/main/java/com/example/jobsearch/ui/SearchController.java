@@ -22,6 +22,10 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import org.springframework.stereotype.Component;
 
+import java.awt.Desktop;
+import java.net.URI;
+import javafx.geometry.Pos;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -337,7 +341,28 @@ public class SearchController implements Initializable {
             WebView webView = new WebView();
             webView.getEngine().loadContent(htmlContent);
             webView.setPrefSize(600, 400);
-            
+            // Create a button to open the URL in browser
+            Button openInBrowserButton = new Button("Open in Browser");
+            openInBrowserButton.setOnAction(e -> {
+                // This requires adding the package import: java.awt.Desktop
+                try {
+                    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                        Desktop.getDesktop().browse(new URI(selectedJob.getUrl()));
+                    } else {
+                        showAlert(Alert.AlertType.INFORMATION, "Browser Not Available",
+                            "Please copy this URL manually and open in your browser:\n" + selectedJob.getUrl());
+                    }
+                } catch (Exception ex) {
+                    showAlert(Alert.AlertType.ERROR, "Browser Error",
+                        "Couldn't open browser. Please copy this URL manually:\n" + selectedJob.getUrl());
+                }
+            });
+
+            // Create a VBox to hold the WebView and button
+            VBox content = new VBox(10, webView, openInBrowserButton);
+            content.setAlignment(Pos.CENTER);
+            dialog.getDialogPane().setContent(content);
+
             dialog.getDialogPane().setContent(webView);
             dialog.getDialogPane().setPrefSize(650, 500);
             

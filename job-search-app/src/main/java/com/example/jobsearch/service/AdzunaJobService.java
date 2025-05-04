@@ -90,7 +90,19 @@ public class AdzunaJobService {
                     
                     // Extract job details
                     String title = jobData.optString("title", "No Title");
-                    String company = jobData.optString("company", "Unknown Company").replaceAll("\\s+name", "");
+                    String company = "Unknown Company";
+                    if (jobData.has("company")) {
+                        if (jobData.get("company") instanceof JSONObject) {
+                            // If company is a JSON object, try to get the display_name property
+                            JSONObject companyObj = jobData.getJSONObject("company");
+                            if (companyObj.has("display_name")) {
+                                company = companyObj.getString("display_name");
+                            }
+                        } else {
+                            // If it's just a string, use it directly
+                            company = jobData.getString("company");
+                        }
+                    }
                     
                     // Extract location
                     String jobLocation = "Not specified";
