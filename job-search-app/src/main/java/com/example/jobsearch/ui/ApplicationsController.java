@@ -74,6 +74,16 @@ public class ApplicationsController implements Initializable {
         loadApplications();
     }
     
+    /**
+     * Public method to reload applications data
+     * Called when tab is selected to refresh display
+     */
+    public void refreshApplications() {
+        loadApplications();
+        // Reset filter to "All" to show the newly added application
+        statusFilterCombo.getSelectionModel().selectFirst();
+    }
+    
     private void loadApplications() {
         applications.clear();
         applications.addAll(applicationService.getApplications());
@@ -131,7 +141,8 @@ public class ApplicationsController implements Initializable {
             result.ifPresent(status -> {
                 applicationService.updateApplicationStatus(selectedIndex, status);
                 loadApplications();
-                statusFilterCombo.getSelectionModel().selectFirst(); // Reset filter to "All"
+                // Reapply the filter
+                handleStatusFilter(new ActionEvent());
             });
         } else {
             showAlert(Alert.AlertType.WARNING, "Selection Required", "Please select an application first.");
@@ -175,6 +186,8 @@ public class ApplicationsController implements Initializable {
             result.ifPresent(notes -> {
                 applicationService.updateApplicationNotes(selectedIndex, notes);
                 loadApplications();
+                // Reapply the filter
+                handleStatusFilter(new ActionEvent());
             });
         } else {
             showAlert(Alert.AlertType.WARNING, "Selection Required", "Please select an application first.");
@@ -197,6 +210,8 @@ public class ApplicationsController implements Initializable {
                 int selectedIndex = applicationsTable.getSelectionModel().getSelectedIndex();
                 applicationService.removeApplication(selectedIndex);
                 loadApplications();
+                // Reapply the filter
+                handleStatusFilter(new ActionEvent());
             }
         } else {
             showAlert(Alert.AlertType.WARNING, "Selection Required", "Please select an application first.");

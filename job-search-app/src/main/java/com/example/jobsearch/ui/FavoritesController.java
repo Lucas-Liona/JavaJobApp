@@ -66,6 +66,14 @@ public class FavoritesController implements Initializable {
         loadFavorites();
     }
     
+    /**
+     * Public method to reload favorites data
+     * Called when tab is selected to refresh display
+     */
+    public void refreshFavorites() {
+        loadFavorites();
+    }
+    
     private void loadFavorites() {
         favoriteJobs.clear();
         favoriteJobs.addAll(favoriteService.getFavorites());

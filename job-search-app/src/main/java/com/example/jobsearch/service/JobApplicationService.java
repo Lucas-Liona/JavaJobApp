@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,12 +23,28 @@ public class JobApplicationService {
     @Autowired
     private ApiUtils apiUtils;
 
-    private static final String APPLICATIONS_FILE = "applications.csv";
+    // Store files in user's home directory for better persistence between app launches
+    private static final String APP_DATA_DIR = System.getProperty("user.home") + File.separator + ".jobsearchapp";
+    private static final String APPLICATIONS_FILE = APP_DATA_DIR + File.separator + "applications.csv";
     private List<JobApplication> applications = new ArrayList<>();
     
     @PostConstruct
     public void init() {
+        // Create app data directory if it doesn't exist
+        createAppDataDirectory();
         loadApplications();
+    }
+    
+    private void createAppDataDirectory() {
+        try {
+            Path dirPath = Paths.get(APP_DATA_DIR);
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+                System.out.println("Created application data directory: " + APP_DATA_DIR);
+            }
+        } catch (IOException e) {
+            System.err.println("Error creating application data directory: " + e.getMessage());
+        }
     }
     
     public List<JobApplication> getApplications() {
@@ -69,6 +88,7 @@ public class JobApplicationService {
         
         File file = new File(APPLICATIONS_FILE);
         if (!file.exists()) {
+            System.out.println("No applications file found at: " + APPLICATIONS_FILE);
             return; // No file to load from
         }
         
@@ -116,35 +136,45 @@ public class JobApplicationService {
                     applications.add(app);
                 }
             }
+            System.out.println("Loaded " + applications.size() + " job applications from " + APPLICATIONS_FILE);
         } catch (IOException e) {
             System.err.println("Error loading applications: " + e.getMessage());
         }
     }
     
     private void saveApplications() {
-        try (FileWriter writer = new FileWriter(APPLICATIONS_FILE)) {
-            // Write header
-            writer.write("jobTitle,company,location,description,url,salary,datePosted,applicationDate,status,notes\n");
+        try {
+            // Ensure directory exists
+            File dir = new File(APP_DATA_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
             
-            // Format for dates
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            
-            // Write each application
-            for (JobApplication app : applications) {
-                Job job = app.getJob();
+            try (FileWriter writer = new FileWriter(APPLICATIONS_FILE)) {
+                // Write header
+                writer.write("jobTitle,company,location,description,url,salary,datePosted,applicationDate,status,notes\n");
                 
-                writer.write(
-                    apiUtils.escapeCSV(job.getTitle()) + "," +
-                    apiUtils.escapeCSV(job.getCompany()) + "," +
-                    apiUtils.escapeCSV(job.getLocation()) + "," +
-                    apiUtils.escapeCSV(job.getDescription()) + "," +
-                    apiUtils.escapeCSV(job.getUrl()) + "," +
-                    apiUtils.escapeCSV(job.getSalary()) + "," +
-                    apiUtils.escapeCSV(job.getDatePosted().format(formatter)) + "," +
-                    apiUtils.escapeCSV(app.getApplicationDate().format(formatter)) + "," +
-                    apiUtils.escapeCSV(app.getStatus()) + "," +
-                    apiUtils.escapeCSV(app.getNotes()) + "\n"
-                );
+                // Format for dates
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                
+                // Write each application
+                for (JobApplication app : applications) {
+                    Job job = app.getJob();
+                    
+                    writer.write(
+                        apiUtils.escapeCSV(job.getTitle()) + "," +
+                        apiUtils.escapeCSV(job.getCompany()) + "," +
+                        apiUtils.escapeCSV(job.getLocation()) + "," +
+                        apiUtils.escapeCSV(job.getDescription()) + "," +
+                        apiUtils.escapeCSV(job.getUrl()) + "," +
+                        apiUtils.escapeCSV(job.getSalary()) + "," +
+                        apiUtils.escapeCSV(job.getDatePosted().format(formatter)) + "," +
+                        apiUtils.escapeCSV(app.getApplicationDate().format(formatter)) + "," +
+                        apiUtils.escapeCSV(app.getStatus()) + "," +
+                        apiUtils.escapeCSV(app.getNotes()) + "\n"
+                    );
+                }
+                System.out.println("Saved " + applications.size() + " job applications to " + APPLICATIONS_FILE);
             }
         } catch (IOException e) {
             System.err.println("Error saving applications: " + e.getMessage());

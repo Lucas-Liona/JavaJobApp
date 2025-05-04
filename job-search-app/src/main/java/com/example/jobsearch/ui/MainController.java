@@ -43,6 +43,17 @@ public class MainController implements Initializable {
             searchTab.setContent(loadFxml("fxml/search-view.fxml"));
             favoritesTab.setContent(loadFxml("fxml/favorites-view.fxml"));
             applicationsTab.setContent(loadFxml("fxml/applications-view.fxml"));
+            
+            // Add listener to refresh content when tab is selected
+            tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+                if (newTab == favoritesTab) {
+                    FavoritesController controller = context.getBean(FavoritesController.class);
+                    controller.refreshFavorites();
+                } else if (newTab == applicationsTab) {
+                    ApplicationsController controller = context.getBean(ApplicationsController.class);
+                    controller.refreshApplications();
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
