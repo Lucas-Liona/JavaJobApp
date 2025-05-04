@@ -42,7 +42,9 @@
         
         <Button fx:id="searchButton" text="Search Jobs" onAction="#handleSearch"
                 GridPane.rowIndex="6" GridPane.columnIndex="1"/>
-    </GridPane>
+        <Label fx:id="didYouMeanLabel" visible="false" text="" 
+        GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        </GridPane>
     
     <Label text="Results:"/>
     <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS">
