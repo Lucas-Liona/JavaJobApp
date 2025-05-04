@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +25,33 @@ public class GoogleJobService {
     
     @Autowired
     private AppConfig appConfig;
+
+    public boolean testApiConnection() {
+    try {
+        // Create API endpoint for a simple call (list companies)
+        String endpoint = "https://jobs.googleapis.com/v3/projects/" + 
+                          appConfig.getGoogleProjectId() + 
+                          "/tenants/default";
+        
+        // Create request headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-Goog-Api-Key", appConfig.getGoogleApiKey());
+        
+        // Create HTTP entity
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        // Make a simple GET request
+        restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
+        
+        System.out.println("Google Cloud Talent API connection successful!");
+        return true;
+    } catch (Exception e) {
+        System.err.println("Google Cloud Talent API connection failed: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+        }
+    }
     
     public List<Job> searchJobs(String keywords, String location) {
         List<Job> jobList = new ArrayList<>();
