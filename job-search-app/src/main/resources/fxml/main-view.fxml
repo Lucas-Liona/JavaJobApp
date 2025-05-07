@@ -19,6 +19,7 @@
                 <Tab text="Search Jobs" fx:id="searchTab"/>
                 <Tab text="Favorites" fx:id="favoritesTab"/>
                 <Tab text="Applications" fx:id="applicationsTab"/>
+                <Tab text="Analytics" fx:id="analyticsTab"/>
             </TabPane>
         </VBox>
     </top>

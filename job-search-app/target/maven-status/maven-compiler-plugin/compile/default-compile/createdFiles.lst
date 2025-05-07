@@ -6,6 +6,7 @@ com\example\jobsearch\service\GoogleJobService.class
 com\example\jobsearch\ui\SearchController.class
 com\example\jobsearch\model\Job.class
 com\example\jobsearch\util\ApiUtils.class
+com\example\jobsearch\ui\AnalyticsController.class
 com\example\jobsearch\ui\FavoritesController.class
 com\example\jobsearch\ui\ApplicationsController.class
 com\example\jobsearch\ui\MainController.class
