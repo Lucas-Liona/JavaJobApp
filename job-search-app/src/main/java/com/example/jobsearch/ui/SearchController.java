@@ -5,7 +5,6 @@ import com.example.jobsearch.model.Job;
 import com.example.jobsearch.model.JobApplication;
 import com.example.jobsearch.service.AdzunaJobService;
 import com.example.jobsearch.service.FavoriteService;
-import com.example.jobsearch.service.GoogleJobService;
 import com.example.jobsearch.service.JobApplicationService;
 import com.example.jobsearch.service.SpellCheckService;
 import com.example.jobsearch.util.ApiUtils;
@@ -40,7 +39,6 @@ import java.util.ResourceBundle;
 @Component
 public class SearchController implements Initializable {
 
-    private final GoogleJobService googleJobService;
     private final AdzunaJobService adzunaJobService;
     private final FavoriteService favoriteService;
     private final JobApplicationService applicationService;
@@ -69,12 +67,10 @@ public class SearchController implements Initializable {
     private ObservableList<Job> jobResults = FXCollections.observableArrayList();
     
     public SearchController(
-            GoogleJobService googleJobService,
             AdzunaJobService adzunaJobService,
             FavoriteService favoriteService,
             JobApplicationService applicationService,
             ApiUtils apiUtils) {
-        this.googleJobService = googleJobService;
         this.adzunaJobService = adzunaJobService;
         this.favoriteService = favoriteService;
         this.applicationService = applicationService;
@@ -100,7 +96,7 @@ public class SearchController implements Initializable {
         salaryFilterCombo.getSelectionModel().selectFirst();
         
         apiSourceCombo.setItems(FXCollections.observableArrayList(
-            "Google Cloud Talent", "Adzuna", "Both (combined results)"
+            "Adzuna"
         ));
         apiSourceCombo.getSelectionModel().selectFirst();
         
@@ -163,18 +159,9 @@ public class SearchController implements Initializable {
                 System.out.println("Expanded search terms: " + keywords);
             }
             
-            // Select API source and perform search
-            String apiSource = apiSourceCombo.getValue();
-            
-            if ("Google Cloud Talent".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
-                List<Job> googleJobs = googleJobService.searchJobs(keywords, location);
-                jobResults.addAll(googleJobs);
-            }
-            
-            if ("Adzuna".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
-                List<Job> adzunaJobs = adzunaJobService.searchJobs(keywords, location);
-                jobResults.addAll(adzunaJobs);
-            }
+            // Perform Adzuna search
+            List<Job> adzunaJobs = adzunaJobService.searchJobs(keywords, location);
+            jobResults.addAll(adzunaJobs);
             
             // Apply filters
             applySalaryFilter();
@@ -244,19 +231,11 @@ public class SearchController implements Initializable {
             searchButton.setDisable(true);
             searchButton.setText("Searching...");
             
-            // Select API source and perform search with original terms
-            String apiSource = apiSourceCombo.getValue();
+            // Perform search with original terms
             jobResults.clear();
             
-            if ("Google Cloud Talent".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
-                List<Job> googleJobs = googleJobService.searchJobs(keywords, location);
-                jobResults.addAll(googleJobs);
-            }
-            
-            if ("Adzuna".equals(apiSource) || "Both (combined results)".equals(apiSource)) {
-                List<Job> adzunaJobs = adzunaJobService.searchJobs(keywords, location);
-                jobResults.addAll(adzunaJobs);
-            }
+            List<Job> adzunaJobs = adzunaJobService.searchJobs(keywords, location);
+            jobResults.addAll(adzunaJobs);
             
             // Apply filters
             applySalaryFilter();

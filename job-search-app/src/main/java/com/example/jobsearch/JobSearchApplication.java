@@ -1,7 +1,6 @@
 // src/main/java/com/example/jobsearch/JobSearchApplication.java
 package com.example.jobsearch;
 
-import com.example.jobsearch.service.GoogleJobService;
 import com.example.jobsearch.ui.JavaFXApplication;
 import javafx.application.Application;
 
@@ -16,11 +15,10 @@ import org.springframework.context.annotation.Bean;
 public class JobSearchApplication {
 
     @Bean
-    public CommandLineRunner testApiConnections(GoogleJobService googleJobService) {
+    public CommandLineRunner testApiConnections() {
         return args -> {
-            System.out.println("Testing Google Cloud Talent API connection...");
-            //boolean googleApiWorking = googleJobService.testApiConnection();
-            //System.out.println("Google API working: " + googleApiWorking);
+            System.out.println("Application initialized successfully.");
+            // API connection tests can be added here if needed
         };
     }
 
