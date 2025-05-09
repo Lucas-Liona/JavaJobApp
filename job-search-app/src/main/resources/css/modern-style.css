@@ -1,0 +1,181 @@
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-background-color: #f7f7f7;
+}
+
+/* Header styles */
+.app-header {
+    -fx-background-color: #3b82f6;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+}
+
+.app-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+/* Tab styles */
+.tab-pane {
+    -fx-tab-min-width: 120px;
+}
+
+.tab {
+    -fx-background-color: #e0e7ff;
+    -fx-background-radius: 5 5 0 0;
+    -fx-padding: 8px 15px;
+}
+
+.tab:selected {
+    -fx-background-color: #6366f1;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #4f46e5;
+    -fx-font-size: 14px;
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #4f46e5;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #6366f1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 2);
+}
+
+.button:pressed {
+    -fx-background-color: #4338ca;
+}
+
+/* Primary action buttons */
+.primary-button {
+    -fx-background-color: #2563eb;
+}
+
+.primary-button:hover {
+    -fx-background-color: #3b82f6;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #1d4ed8;
+}
+
+/* Warning/removal buttons */
+.warning-button {
+    -fx-background-color: #dc2626;
+}
+
+.warning-button:hover {
+    -fx-background-color: #ef4444;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #b91c1c;
+}
+
+/* Form elements */
+.text-field, .text-area, .combo-box {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 5;
+    -fx-padding: 8;
+}
+
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-border-color: #4f46e5;
+    -fx-effect: dropshadow(gaussian, rgba(79, 70, 229, 0.2), 4, 0, 0, 0);
+}
+
+/* Table styles */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 5;
+}
+
+.table-view .column-header {
+    -fx-background-color: #e0e7ff;
+    -fx-font-weight: bold;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #f3f4f6;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f9fafb;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e0e7ff;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #eff6ff;
+}
+
+/* Card-like container */
+.card-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e5e7eb;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 15;
+}
+
+/* Section titles */
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+/* Status indicators */
+.status-applied {
+    -fx-background-color: #93c5fd;
+    -fx-text-fill: #1e40af;
+    -fx-background-radius: 3;
+    -fx-padding: 3 8;
+}
+
+.status-interview {
+    -fx-background-color: #fde68a;
+    -fx-text-fill: #92400e;
+    -fx-background-radius: 3;
+    -fx-padding: 3 8;
+}
+
+.status-offer {
+    -fx-background-color: #86efac;
+    -fx-text-fill: #166534;
+    -fx-background-radius: 3;
+    -fx-padding: 3 8;
+}
+
+.status-rejected {
+    -fx-background-color: #fca5a5;
+    -fx-text-fill: #991b1b;
+    -fx-background-radius: 3;
+    -fx-padding: 3 8;
+}

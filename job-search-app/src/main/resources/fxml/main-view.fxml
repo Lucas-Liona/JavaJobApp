@@ -10,11 +10,11 @@
           prefHeight="700.0" prefWidth="900.0">
     
     <top>
-        <VBox spacing="10">
+        <VBox spacing="10" styleClass="app-header">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10" />
             </padding>
-            <Label text="Job Search Application" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <Label text="On Board!" styleClass="app-title"/>
             <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
                 <Tab text="Search Jobs" fx:id="searchTab"/>
                 <Tab text="Favorites" fx:id="favoritesTab"/>
@@ -25,5 +25,14 @@
     </top>
     
     <!-- The tab content will be loaded dynamically -->
+    
+    <bottom>
+        <HBox styleClass="status-bar" alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="5" right="10" bottom="5" left="10"/>
+            </padding>
+            <Label fx:id="statusLabel" text="Ready"/>
+        </HBox>
+    </bottom>
     
 </BorderPane>

@@ -7,26 +7,28 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.jobsearch.ui.FavoritesController"
-      spacing="10">
+      spacing="15">
       
     <padding>
         <Insets top="15" right="15" bottom="15" left="15" />
     </padding>
     
-    <Label text="Favorite Jobs" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    
-    <TableView fx:id="favoritesTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="titleColumn" text="Title"/>
-            <TableColumn fx:id="companyColumn" text="Company"/>
-            <TableColumn fx:id="locationColumn" text="Location"/>
-            <TableColumn fx:id="salaryColumn" text="Salary"/>
-        </columns>
-    </TableView>
-    
-    <HBox spacing="10">
-        <Button fx:id="removeFavoriteButton" text="Remove" onAction="#handleRemoveFavorite"/>
-        <Button fx:id="viewDetailsButton" text="View Details" onAction="#handleViewDetails"/>
-        <Button fx:id="recordApplicationButton" text="Record Application" onAction="#handleRecordApplication"/>
-    </HBox>
+    <VBox styleClass="card-container" spacing="15" VBox.vgrow="ALWAYS">
+        <Label text="Favorite Jobs" styleClass="section-title"/>
+        
+        <TableView fx:id="favoritesTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titleColumn" text="Title" prefWidth="200"/>
+                <TableColumn fx:id="companyColumn" text="Company" prefWidth="150"/>
+                <TableColumn fx:id="locationColumn" text="Location" prefWidth="150"/>
+                <TableColumn fx:id="salaryColumn" text="Salary" prefWidth="150"/>
+            </columns>
+        </TableView>
+        
+        <HBox spacing="10">
+            <Button fx:id="removeFavoriteButton" text="Remove" styleClass="warning-button" onAction="#handleRemoveFavorite"/>
+            <Button fx:id="viewDetailsButton" text="View Details" onAction="#handleViewDetails"/>
+            <Button fx:id="recordApplicationButton" text="Record Application" styleClass="primary-button" onAction="#handleRecordApplication"/>
+        </HBox>
+    </VBox>
 </VBox>

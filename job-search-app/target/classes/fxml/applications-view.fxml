@@ -7,33 +7,36 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.jobsearch.ui.ApplicationsController"
-      spacing="10">
+      spacing="15">
       
     <padding>
         <Insets top="15" right="15" bottom="15" left="15" />
     </padding>
     
-    <Label text="Job Applications" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    
-    <HBox spacing="10">
-        <Label text="Filter by status:"/>
-        <ComboBox fx:id="statusFilterCombo"/>
-    </HBox>
-    
-    <TableView fx:id="applicationsTable" VBox.vgrow="ALWAYS">
-        <columns>
-            <TableColumn fx:id="jobTitleColumn" text="Job Title"/>
-            <TableColumn fx:id="companyColumn" text="Company"/>
-            <TableColumn fx:id="applicationDateColumn" text="Date Applied"/>
-            <TableColumn fx:id="statusColumn" text="Status"/>
-            <TableColumn fx:id="notesColumn" text="Notes"/>
-        </columns>
-    </TableView>
-    
-    <HBox spacing="10">
-        <Button fx:id="updateStatusButton" text="Update Status" onAction="#handleUpdateStatus"/>
-        <Button fx:id="updateNotesButton" text="Update Notes" onAction="#handleUpdateNotes"/>
-        <Button fx:id="removeApplicationButton" text="Remove" onAction="#handleRemoveApplication"/>
-        <Button fx:id="exportResumeButton" text="Export Resume" onAction="#handleExportResume"/>
-    </HBox>
+    <VBox styleClass="card-container" spacing="15" VBox.vgrow="ALWAYS">
+        <Label text="Job Applications" styleClass="section-title"/>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Filter by status:"/>
+            <ComboBox fx:id="statusFilterCombo"/>
+        </HBox>
+        
+        <TableView fx:id="applicationsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="jobTitleColumn" text="Job Title" prefWidth="180"/>
+                <TableColumn fx:id="companyColumn" text="Company" prefWidth="150"/>
+                <TableColumn fx:id="applicationDateColumn" text="Date Applied" prefWidth="110"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="130"/>
+                <TableColumn fx:id="notesColumn" text="Notes" prefWidth="180"/>
+            </columns>
+        </TableView>
+        
+        <HBox spacing="10">
+            <Button fx:id="updateStatusButton" text="Update Status" onAction="#handleUpdateStatus"/>
+            <Button fx:id="updateNotesButton" text="Update Notes" onAction="#handleUpdateNotes"/>
+            <Button fx:id="removeApplicationButton" text="Remove" styleClass="warning-button" onAction="#handleRemoveApplication"/>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="exportResumeButton" text="Export Resume" onAction="#handleExportResume"/>
+        </HBox>
+    </VBox>
 </VBox>

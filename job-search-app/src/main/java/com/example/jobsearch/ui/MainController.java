@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +33,12 @@ public class MainController implements Initializable {
     @FXML
     private Tab applicationsTab;
     
+    @FXML
+    private Tab analyticsTab;
+    
+    @FXML
+    private Label statusLabel;
+    
     public MainController(ApplicationContext context) {
         this.context = context;
     }
@@ -44,18 +51,26 @@ public class MainController implements Initializable {
             favoritesTab.setContent(loadFxml("fxml/favorites-view.fxml"));
             applicationsTab.setContent(loadFxml("fxml/applications-view.fxml"));
             
+            // Set initial status
+            updateStatus("Ready");
+            
             // Add listener to refresh content when tab is selected
             tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
                 if (newTab == favoritesTab) {
                     FavoritesController controller = context.getBean(FavoritesController.class);
                     controller.refreshFavorites();
+                    updateStatus("Viewing favorites");
                 } else if (newTab == applicationsTab) {
                     ApplicationsController controller = context.getBean(ApplicationsController.class);
                     controller.refreshApplications();
+                    updateStatus("Viewing applications");
+                } else if (newTab == searchTab) {
+                    updateStatus("Ready to search jobs");
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
+            updateStatus("Error: Failed to initialize application");
         }
     }
     
@@ -63,5 +78,14 @@ public class MainController implements Initializable {
         FXMLLoader loader = new FXMLLoader(new ClassPathResource(fxmlPath).getURL());
         loader.setControllerFactory(context::getBean);
         return loader.load();
+    }
+    
+    /**
+     * Updates the status bar text
+     */
+    public void updateStatus(String status) {
+        if (statusLabel != null) {
+            statusLabel.setText(status);
+        }
     }
 }
